@@ -73,9 +73,7 @@ namespace SampleReportingService
                     b => b.MigrationsAssembly("Infrastructure"));
 
             services.AddUnitOfWork<DirectoryDbContext>(dbContextoptionsAction);
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IContactInfoService, ContactInfoService>();
-            services.AddScoped<IContactTypeService, ContactTypeService>();
+            services.AddScoped<IReportService, ReportService>();
             services.AddSwaggerGen(c =>
             {
                 c.DescribeAllParametersInCamelCase();

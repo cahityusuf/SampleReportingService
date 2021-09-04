@@ -5,11 +5,11 @@ using Domain.Entities;
 
 namespace Application.Mapper
 {
-    public class UserProfile:Profile
+    public class ReportProfile:Profile
     {
-        public UserProfile()
+        public ReportProfile()
         {
-            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<Reports, ReportsDto>().ReverseMap();
         }
     }
 }

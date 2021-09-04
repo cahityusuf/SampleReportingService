@@ -15,9 +15,8 @@ namespace Infrastructure.DataContexts
 
         }
 
-        public DbSet<User> User { get; set; }
-        public DbSet<ContactInfo> ContactInfo { get; set; }
-        public DbSet<ContactType> ContactType { get; set; }
+        public DbSet<Reports> User { get; set; }
+        public DbSet<ReportStatus> ContactInfo { get; set; }
 
 
     }

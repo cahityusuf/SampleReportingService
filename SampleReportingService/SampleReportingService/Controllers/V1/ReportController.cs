@@ -10,17 +10,17 @@ namespace DirectoryApi.Controllers.V1
     [ApiController]
     [Produces("application/json")]
     [Route("v{version:apiVersion}/[controller]")]
-    public class UserController : ControllerBase
+    public class ReportController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly IReportService _userService;
 
-        public UserController(IUserService userService)
+        public ReportController(IReportService userService)
         {
             _userService = userService;
         }
 
         [HttpGet("GetByIdAsync/{id:long}")]
-        [ProducesResponseType(typeof(UserDto), statusCode: 200)]
+        [ProducesResponseType(typeof(ReportsDto), statusCode: 200)]
         [AllowAnonymous]
         public async Task<IActionResult> GetByIdAsync(long id)
         {
@@ -35,7 +35,7 @@ namespace DirectoryApi.Controllers.V1
         }
 
         [HttpGet("GetListAsync")]
-        [ProducesResponseType(typeof(List<UserDto>), statusCode: 200)]
+        [ProducesResponseType(typeof(List<ReportsDto>), statusCode: 200)]
         [AllowAnonymous]
         public async Task<IActionResult> GetListAsync()
         {
@@ -51,9 +51,9 @@ namespace DirectoryApi.Controllers.V1
         }
 
         [HttpPost("InsertAsync")]
-        [ProducesResponseType(typeof(UserDto), statusCode: 200)]
+        [ProducesResponseType(typeof(ReportsDto), statusCode: 200)]
         [AllowAnonymous]
-        public async Task<IActionResult> InsertAsync(UserDto user)
+        public async Task<IActionResult> InsertAsync(ReportsDto user)
         {
             var result = await _userService.InsertAsync(user);
 
@@ -66,9 +66,9 @@ namespace DirectoryApi.Controllers.V1
         }
 
         [HttpPut("UpdateAsync")]
-        [ProducesResponseType(typeof(UserDto), statusCode: 200)]
+        [ProducesResponseType(typeof(ReportsDto), statusCode: 200)]
         [AllowAnonymous]
-        public async Task<IActionResult> UpdateAsync(UserDto user)
+        public async Task<IActionResult> UpdateAsync(ReportsDto user)
         {
             var result = await _userService.UpdateAsync(user);
 
