@@ -2,9 +2,9 @@
 Sample Reporting Service Backend
 
 # KULLANILAN TEKNOLOJİLER
-Mesajlaşma Servisi: RabbitMQ
-Veri Tabanı :Postgresql
-Migration: Appsettings.Json dosyasında, "ConnectionStrings:DirectoryDbContext" dizininde bulunan Connectionstring'te bulunan "Database" ve "Password" bilgileri önemlidir.
+1.  Mesajlaşma Servisi: RabbitMQ
+2.  Veri Tabanı :Postgresql
+3.  Migration: Appsettings.Json dosyasında, "ConnectionStrings:DirectoryDbContext" dizininde bulunan Connectionstring'te bulunan "Database" ve "Password" bilgileri önemlidir.
 "Database" adı => ReportingServiceDb olarak belirlenmiştir.
 
 **** "Password" => localinizde kurulu olan postgresql databasine bağlandığınız şifredir. Her kişide farklılık gösterdiğinden boş bırakıyorum.Lütfen kendi şifrenizi giriniz.
@@ -13,7 +13,8 @@ bu işlemden sonra "Update-Database" komutu ile tablolarınızı oluşturabilirs
 
 
 # GİT İŞLEMLERİ
-*** Dev isminde branc oluşturularak geliştirme yapılmıştır. Yapılan geliştirmeler Pull-Request isteği oluşturularak Main branci ile Marge edilmiştir.
+1.  Dev isminde branc oluşturularak geliştirme yapılmıştır. 
+2.  Yapılan geliştirmeler Pull-Request isteği oluşturularak Main branci ile Marge edilmiştir.
 
 # AÇIKLAMA
 1.  ReportinService Mikroservisinin görevi Rapor talepleri üretmek ve talem doğrulutusunda oluşturulan raporları veri tabanına kaydetmektir.
