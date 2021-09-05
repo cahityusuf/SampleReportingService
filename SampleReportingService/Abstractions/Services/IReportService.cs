@@ -10,12 +10,8 @@ namespace Abstractions.Services
 {
     public interface IReportService:IBusinessService
     {
-        Task<IDataResult<ReportsDto>> GetByIdAsync(long id);
-        Task<IDataResult<List<ReportsDto>>> GetListAsync();
-        Task<IDataResult<ReportsDto>> InsertAsync(ReportsDto user);
+        Task<IDataResult<ReportsDto>> ReportCreate();
 
-        Task<IDataResult<ReportsDto>> UpdateAsync(ReportsDto user);
-
-        Task<IResult> DeleteAsync(long id);
+        Task<IDataResult<ReportsDto>> ReportCapture(ReportsDto reports);
     }
 }

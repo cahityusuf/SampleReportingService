@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Domain.Entities;
 
 namespace DirectoryApi.Controllers.V1
 {
@@ -12,19 +13,19 @@ namespace DirectoryApi.Controllers.V1
     [Route("v{version:apiVersion}/[controller]")]
     public class ReportController : ControllerBase
     {
-        private readonly IReportService _userService;
+        private readonly IReportService _reportService;
 
-        public ReportController(IReportService userService)
+        public ReportController(IReportService reportService)
         {
-            _userService = userService;
+            _reportService = reportService;
         }
 
-        [HttpGet("GetByIdAsync/{id:long}")]
+        [HttpGet("RaporCreate")]
         [ProducesResponseType(typeof(ReportsDto), statusCode: 200)]
         [AllowAnonymous]
-        public async Task<IActionResult> GetByIdAsync(long id)
+        public async Task<IActionResult> RaporCreate()
         {
-            var result = await _userService.GetByIdAsync(id);
+            var result = await _reportService.ReportCreate();
 
             if (result.Success)
             {
@@ -34,65 +35,20 @@ namespace DirectoryApi.Controllers.V1
             return BadRequest(result.Message);
         }
 
-        [HttpGet("GetListAsync")]
-        [ProducesResponseType(typeof(List<ReportsDto>), statusCode: 200)]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetListAsync()
-        {
-            var result = await _userService.GetListAsync();
-
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result.Message);
-
-        }
-
-        [HttpPost("InsertAsync")]
+        [HttpPost("ReportCapture")]
         [ProducesResponseType(typeof(ReportsDto), statusCode: 200)]
         [AllowAnonymous]
-        public async Task<IActionResult> InsertAsync(ReportsDto user)
+        public async Task<IActionResult> ReportCapture(ReportsDto reports)
         {
-            var result = await _userService.InsertAsync(user);
+            var result = await _reportService.ReportCapture(reports);
 
             if (result.Success)
             {
-                return Ok(result);
+                return Ok(result.Data);
             }
 
             return BadRequest(result.Message);
         }
 
-        [HttpPut("UpdateAsync")]
-        [ProducesResponseType(typeof(ReportsDto), statusCode: 200)]
-        [AllowAnonymous]
-        public async Task<IActionResult> UpdateAsync(ReportsDto user)
-        {
-            var result = await _userService.UpdateAsync(user);
-
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result.Message);
-        }
-
-        [HttpDelete("DeleteAsync")]
-        [ProducesResponseType(typeof(bool), statusCode: 200)]
-        [AllowAnonymous]
-        public async Task<IActionResult> DeleteAsync(long id)
-        {
-            var result = await _userService.DeleteAsync(id);
-
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result.Message);
-        }
     }
 }

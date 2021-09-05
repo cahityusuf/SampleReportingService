@@ -39,6 +39,7 @@
 		<ProjectReference Include="..\Application\Application.csproj" />
 		<ProjectReference Include="..\Data\Data.csproj" />
 		<ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+		<ProjectReference Include="..\RabbitMQ\RabbitMQ.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -22,6 +22,8 @@ using Infrastructure.DataContexts;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.Mvc.Versioning.Conventions;
 using Microsoft.EntityFrameworkCore;
+using RabbitMQ;
+using RabbitMQ.Client;
 
 namespace SampleReportingService
 {
@@ -54,6 +56,17 @@ namespace SampleReportingService
                     options.Conventions.Add(new VersionByNamespaceConvention());
                 }
             );
+
+            services.AddSingleton(s => new ConnectionFactory()
+            {
+                Uri = new Uri
+                    (Configuration.GetSection("RabbitMqSettings:ConnectionString").Value),
+                DispatchConsumersAsync = true
+            });
+
+            services.AddSingleton<RabbitMqService>();
+            services.AddSingleton<RabbitMQPublisher>();
+
             services.AddVersionedApiExplorer(
                 options =>
                 {
@@ -68,6 +81,7 @@ namespace SampleReportingService
             );
 
             services.AddAutoMapper(apiOptions.RegistrationAssemblies);
+
             Action<DbContextOptionsBuilder> dbContextoptionsAction = dbcontextOptions =>
                 dbcontextOptions.UseNpgsql(Configuration.GetConnectionString("DirectoryDbContext"),
                     b => b.MigrationsAssembly("Infrastructure"));

@@ -2,15 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 using Abstractions.Data;
 using Abstractions.Dtos;
+using Abstractions.Enums;
 using Abstractions.Results;
 using Abstractions.Services;
 using Application.Constants;
 using AutoMapper;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using RabbitMQ;
+using RabbitMQ.Client.Events;
 
 namespace Application.Services
 {
@@ -18,66 +23,37 @@ namespace Application.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public ReportService(IMapper mapper, IUnitOfWork unitOfWork)
+        private readonly RabbitMQPublisher _rabbitMqPublisher;
+        public ReportService(IMapper mapper, IUnitOfWork unitOfWork, RabbitMQPublisher rabbitMqPublisher)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
-        }
-
-        public async Task<IDataResult<ReportsDto>> GetByIdAsync(long id)
-        {
-            try
-            {
-                if (id == 0) return new ErrorDataResult<ReportsDto>(Messages.InvalidId);
-
-                var _report = _unitOfWork.GetRepository<Reports>();
-
-                var result = await _report.GetFirstOrDefaultAsync(predicate: p => p.Id == id,
-                                                                    include: i => i.Include(c => c.ReportStatus));
-
-                if (result != null)
-                {
-                    return new SuccessDataResult<ReportsDto>(_mapper.Map<ReportsDto>(result));
-                }
-
-                return new ErrorDataResult<ReportsDto>(Messages.Error);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            _rabbitMqPublisher = rabbitMqPublisher;
 
         }
 
-        public async Task<IDataResult<List<ReportsDto>>> GetListAsync()
-        {
-            var _report = _unitOfWork.GetRepository<Reports>();
 
-            var result = await _report.GetAllAsync();
+        public async Task<IDataResult<ReportsDto>> ReportCreate()
+        {
+            var repository = _unitOfWork.GetRepository<Reports>();
+
+            ReportsDto reports = new()
+            {
+                ReportDateTime = DateTime.Now,
+                ReportStatusId = (int)ReportStatusEnum.Hazırlanıyor
+            };
+
+            var result = await repository.InsertAsync(_mapper.Map<Reports>(reports));
 
             if (result != null)
             {
-                return new SuccessDataResult<List<ReportsDto>>(_mapper.Map<List<ReportsDto>>(result));
-            }
-
-            return new ErrorDataResult<List<ReportsDto>>(Messages.Error);
-        }
-
-        public async Task<IDataResult<ReportsDto>> InsertAsync(ReportsDto user)
-        {
-            if (user == null) return new ErrorDataResult<ReportsDto>(Messages.InvalidId);
-
-            var _report = _unitOfWork.GetRepository<Reports>();
-
-            var result = await _report.InsertAsync(_mapper.Map<Reports>(user));
-
-            if (result != null)
-            {
-                var save = await _report.SaveChangesAsync();
+                var save = await repository.SaveChangesAsync();
 
                 if (save > 0)
                 {
+
+                    _rabbitMqPublisher.Publish(new CreateReportMessage() { ReportId = result.Id });
+
                     return new SuccessDataResult<ReportsDto>(_mapper.Map<ReportsDto>(result));
                 }
 
@@ -86,40 +62,42 @@ namespace Application.Services
             return new ErrorDataResult<ReportsDto>(Messages.Error);
         }
 
-        public async Task<IDataResult<ReportsDto>> UpdateAsync(ReportsDto user)
+        /// <summary>
+        /// Worker Servisten raporun alındığına dair request geldi
+        /// Report için oluşturulan kayıt "Hazırlanıyor" dan "Tamamlandı" ya çekilsin
+        /// Ayrıca Rapor sonucunda oluşan Data rapor Id si ile saklansın.
+        /// Dolayısıyla daha önce üretilen raporlara Reporting Serviceden ulaşılabilir.
+        /// </summary>
+        /// <param name="reports"></param>
+        /// <returns></returns>
+        public async Task<IDataResult<ReportsDto>> ReportCapture(ReportsDto reports)
         {
-            if (user == null) return new ErrorDataResult<ReportsDto>(Messages.InvalidId);
+            var repository = _unitOfWork.GetRepository<Reports>();
+            var repoReportsDetail = _unitOfWork.GetRepository<ReportDetail>();
 
-            var _report = _unitOfWork.GetRepository<Reports>();
+            var result = await repository.FindAsync(reports.Id);
 
-            _report.Update(_mapper.Map<Reports>(user));
-
-            var result = await _report.SaveChangesAsync();
-
-            if (result != 0)
+            if (result != null)
             {
-                return new SuccessDataResult<ReportsDto>(_mapper.Map<ReportsDto>(result));
+                result.ReportStatusId = ReportStatusEnum.Tamamlandı;
+                result.ReportDateTime = DateTime.Now;
+                repository.Update(result);
+
+                var reportDetail = _mapper.Map<List<ReportDetail>>(reports.ReportDetail.ToList());
+
+                repoReportsDetail.Insert(reportDetail);
+
+                var save = await repository.SaveChangesAsync();
+
+                if (save > 0)
+                {
+
+                    return new SuccessDataResult<ReportsDto>(_mapper.Map<ReportsDto>(result));
+                }
             }
 
             return new ErrorDataResult<ReportsDto>(Messages.Error);
         }
 
-        public async Task<IResult> DeleteAsync(long id)
-        {
-            if (id == 0) return new ErrorResult(Messages.InvalidId);
-
-            var _report = _unitOfWork.GetRepository<Reports>();
-
-            _report.Delete(id);
-
-            var result = await _report.SaveChangesAsync();
-
-            if (result != 0)
-            {
-                return new Result(true);
-            }
-
-            return new ErrorResult(Messages.Error);
-        }
     }
 }
