@@ -2,14 +2,16 @@
 Sample Reporting Service Backend
 
 # KULLANILAN TEKNOLOJİLER
-1.  Mesajlaşma Servisi: RabbitMQ
-2.  Veri Tabanı :Postgresql
-3.  Migration: Appsettings.Json dosyasında, "ConnectionStrings:DirectoryDbContext" dizininde bulunan Connectionstring'te bulunan "Database" ve "Password" bilgileri önemlidir.
+1.  RabbitMQ
+2.  Postgresql
+3.  .Net 5.0
+4.  Swagger
+
+# MIGRATIN ISLEMLERİ
+1.  Migration: Appsettings.Json dosyasında, "ConnectionStrings:DirectoryDbContext" dizininde bulunan Connectionstring'te bulunan "Database" ve "Password" bilgileri önemlidir.
 "Database" adı => ReportingServiceDb olarak belirlenmiştir.
-
-**** "Password" => localinizde kurulu olan postgresql databasine bağlandığınız şifredir. Her kişide farklılık gösterdiğinden boş bırakıyorum.Lütfen kendi şifrenizi giriniz.
-
-bu işlemden sonra "Update-Database" komutu ile tablolarınızı oluşturabilirsiniz.
+2.  Password => localinizde kurulu olan postgresql databasine bağlandığınız şifredir. Her kişide farklılık gösterdiğinden boş bırakıyorum.Lütfen kendi şifrenizi giriniz.
+3.  bu işlemden sonra "Update-Database" komutu ile tablolarınızı oluşturabilirsiniz.
 
 
 # GİT İŞLEMLERİ
