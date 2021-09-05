@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Domain.Entities;
 
 namespace DirectoryApi.Controllers.V1
 {
@@ -19,16 +20,31 @@ namespace DirectoryApi.Controllers.V1
             _reportService = reportService;
         }
 
-        [HttpGet("GetByIdAsync")]
+        [HttpGet("RaporCreate")]
         [ProducesResponseType(typeof(ReportsDto), statusCode: 200)]
         [AllowAnonymous]
-        public async Task<IActionResult> GetByIdAsync()
+        public async Task<IActionResult> RaporCreate()
         {
             var result = await _reportService.ReportCreate();
 
             if (result.Success)
             {
                 return Ok(result);
+            }
+
+            return BadRequest(result.Message);
+        }
+
+        [HttpPost("ReportCapture")]
+        [ProducesResponseType(typeof(ReportsDto), statusCode: 200)]
+        [AllowAnonymous]
+        public async Task<IActionResult> ReportCapture(ReportsDto reports)
+        {
+            var result = await _reportService.ReportCapture(reports);
+
+            if (result.Success)
+            {
+                return Ok(result.Data);
             }
 
             return BadRequest(result.Message);

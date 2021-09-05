@@ -12,5 +12,6 @@ namespace Abstractions.Services
     {
         Task<IDataResult<ReportsDto>> ReportCreate();
 
+        Task<IDataResult<ReportsDto>> ReportCapture(ReportsDto reports);
     }
 }

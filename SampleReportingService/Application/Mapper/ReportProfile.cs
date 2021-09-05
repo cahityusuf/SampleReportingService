@@ -10,6 +10,7 @@ namespace Application.Mapper
         public ReportProfile()
         {
             CreateMap<Reports, ReportsDto>().ReverseMap();
+            CreateMap<ReportDetail, ReportDetailDto>().ReverseMap();
         }
     }
 }

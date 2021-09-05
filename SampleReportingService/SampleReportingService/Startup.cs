@@ -81,6 +81,7 @@ namespace SampleReportingService
             );
 
             services.AddAutoMapper(apiOptions.RegistrationAssemblies);
+
             Action<DbContextOptionsBuilder> dbContextoptionsAction = dbcontextOptions =>
                 dbcontextOptions.UseNpgsql(Configuration.GetConnectionString("DirectoryDbContext"),
                     b => b.MigrationsAssembly("Infrastructure"));
