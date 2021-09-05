@@ -5,15 +5,17 @@ VisualStudioVersion = 16.0.31605.320
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleReportingService", "SampleReportingService\SampleReportingService.csproj", "{A586E46D-BC0F-4078-83FF-BCE45CFE0A5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractions", "Abstractions\Abstractions.csproj", "{BA8CB19B-F7B9-4773-A647-50A8C4E0DDCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Abstractions", "Abstractions\Abstractions.csproj", "{BA8CB19B-F7B9-4773-A647-50A8C4E0DDCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{9FE19FD6-6312-4695-94DD-802A964101B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{9FE19FD6-6312-4695-94DD-802A964101B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{69237E14-9690-456E-B975-845A3A2CAE1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{69237E14-9690-456E-B975-845A3A2CAE1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{05ACC25C-4BE9-408B-BA58-BCC6A2AD4155}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{05ACC25C-4BE9-408B-BA58-BCC6A2AD4155}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{620562AA-615B-424D-977E-AC4814BBE666}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{620562AA-615B-424D-977E-AC4814BBE666}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitMQ", "RabbitMQ\RabbitMQ.csproj", "{7946A7E3-13CD-4278-B7F7-3695E4A7359A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{620562AA-615B-424D-977E-AC4814BBE666}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{620562AA-615B-424D-977E-AC4814BBE666}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{620562AA-615B-424D-977E-AC4814BBE666}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7946A7E3-13CD-4278-B7F7-3695E4A7359A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7946A7E3-13CD-4278-B7F7-3695E4A7359A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7946A7E3-13CD-4278-B7F7-3695E4A7359A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7946A7E3-13CD-4278-B7F7-3695E4A7359A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

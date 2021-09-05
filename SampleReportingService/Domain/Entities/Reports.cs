@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abstractions.Data;
+using Abstractions.Enums;
 
 namespace Domain.Entities
 {
@@ -14,8 +15,7 @@ namespace Domain.Entities
 
         public long Id { get; set; }
         public DateTime ReportDateTime { get; set; }
-        public ReportStatus ReportStatus { get; set; }
-        public int ReportStatusId { get; set; }
+        public ReportStatusEnum ReportStatusId { get; set; }
 
     }
 }
