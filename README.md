@@ -1,5 +1,7 @@
 # SampleReportingService
 Sample Reporting Service Backend
+
+# KULLANILAN TEKNOLOJİLER
 Mesajlaşma Servisi: RabbitMQ
 Veri Tabanı :Postgresql
 Migration: Appsettings.Json dosyasında, "ConnectionStrings:DirectoryDbContext" dizininde bulunan Connectionstring'te bulunan "Database" ve "Password" bilgileri önemlidir.
@@ -10,6 +12,10 @@ Migration: Appsettings.Json dosyasında, "ConnectionStrings:DirectoryDbContext" 
 bu işlemden sonra "Update-Database" komutu ile tablolarınızı oluşturabilirsiniz.
 
 
+# GİT İŞLEMLERİ
+*** Dev isminde branc oluşturularak geliştirme yapılmıştır. Yapılan geliştirmeler Pull-Request isteği oluşturularak Main branci ile Marge edilmiştir.
+
+# AÇIKLAMA
 1.  ReportinService Mikroservisinin görevi Rapor talepleri üretmek ve talem doğrulutusunda oluşturulan raporları veri tabanına kaydetmektir.
 2.  RaportCreate ve ReportCapture isminde 2 adet endpoindi bulunmaktadır.
 3.  ReportCreate'in görevi RabbitMQ kullanarak DirectoryWorkerService'ye bir rapor talebi oluşturmaktır. Report tablosuna ilk kaydı oluşturur ve talep edilen raporun, Id,Date ve Status durumlarını tutar. Status durumu talep edilen Rapor kendisine ulaşmadığı sürece veri tabanında "Hazırlanıyor" olarak saklanır.
