@@ -20,10 +20,10 @@ namespace DirectoryApi.Controllers.V1
             _reportService = reportService;
         }
 
-        [HttpGet("RaporCreate")]
+        [HttpGet("RaportCreate")]
         [ProducesResponseType(typeof(ReportsDto), statusCode: 200)]
         [AllowAnonymous]
-        public async Task<IActionResult> RaporCreate()
+        public async Task<IActionResult> RaportCreate()
         {
             var result = await _reportService.ReportCreate();
 
